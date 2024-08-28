@@ -18,7 +18,9 @@ const uploadImage = (req,res,next)=>{
   if(!req.file) return
 
   const imagem = req.file
-  const nomeDoArquivo = Date.now() + '.' + imagem.originalname.split().pop();
+  const fileExtension= Date.now() + '.' + imagem.originalname.split().pop();
+  const nomeDoArquivo = `${fileExtension}`;
+
 
   const file = bucket.file(nomeDoArquivo)
 
@@ -36,7 +38,8 @@ const uploadImage = (req,res,next)=>{
 
     await file.makePublic()
 
-    req.file.firebaseUrl = `https://firebasestorage.googleapis.com/v0/b${BUCKET}/o/${encodeURIComponent(nomeDoArquivo)}?alt=media&token=ea5325d6-c67c-4ab0-8ad7-6a54383974f1`;
+    req.file.filename = nomeDoArquivo;
+    req.file.firebaseUrl = `https://firebasestorage.googleapis.com/v0/b${BUCKET}/o/${nomeDoArquivo}?alt=media&token=ea5325d6-c67c-4ab0-8ad7-6a54383974f1`;
     next()
   })
 
