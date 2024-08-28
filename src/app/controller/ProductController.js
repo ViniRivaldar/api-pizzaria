@@ -46,7 +46,6 @@ class ProductController{
                     const { filename, originalname } = req.file; 
                     const { firebaseUrl } = req.file || {};
 
-                    console.log(filename)
     
                     const product = await Product.create({
                         name,
