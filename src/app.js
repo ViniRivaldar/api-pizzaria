@@ -5,6 +5,7 @@ import UserRouter from './app/routes/UserRoutes.js'
 import LoginRouter from './app/routes/LoginRoutes.js'
 import AddressRouter from './app/routes/AddressRoutes.js'
 import ProductRoutes from './app/routes/ProductRoutes.js'
+import CategoryRoutes from './app/routes/CategoryRoutes.js'
 
 class App{
     constructor(){
@@ -23,6 +24,7 @@ class App{
         this.app.use('/login/',LoginRouter)
         this.app.use('/address/',AddressRouter)
         this.app.use('/product/',ProductRoutes)
+        this.app.use('/category/',CategoryRoutes)
     }
 }
 

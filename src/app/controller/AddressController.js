@@ -104,8 +104,6 @@ class AddressController{
             return res.status(500).json({ error: 'Erro ao atualizar o endereço' });
         }
     }
-    
-    
     async delete(req,res){
         const schema = yup.object().shape({
             index: yup.number().required(), 
