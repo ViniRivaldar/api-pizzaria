@@ -20,14 +20,14 @@ class UserController{
 
         const{name, phone, email, password, admin } = req.body
 
-        const emailExist = await User.findOne({email})
-
-        if(emailExist){
-            return res.json(400).json({error: 'email invalido'})
-        }
-
+        
         try {
-
+            const emailExist = await User.findOne({email})
+    
+            if (emailExist) {
+                return res.status(400).json({ error: 'E-mail já cadastrado' });
+            }
+            
             const newUser =new User({
                 name, 
                 phone, 

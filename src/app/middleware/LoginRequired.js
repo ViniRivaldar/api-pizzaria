@@ -17,6 +17,7 @@ export default function LoginRequired(req,res,next){
         req.userId = decoded._id;
         req.userName = decoded.name;
         req.userEmail = decoded.email;
+        req.admin = decoded.admin
 
         return next()
 

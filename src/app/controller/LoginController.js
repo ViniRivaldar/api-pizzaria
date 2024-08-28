@@ -41,7 +41,7 @@ class LoginController{
 
             const { _id, name, admin } = user;
 
-            const token = jwt.sign({ _id, name, email}, process.env.TOKEN_SECRET, {
+            const token = jwt.sign({ _id, name, email,admin}, process.env.TOKEN_SECRET, {
                 expiresIn: process.env.TOKEN_EXPIRATION,
             })
             
