@@ -49,6 +49,26 @@ class AddressController{
             return res.status(400).json({error:err.errors})
         }
     }
+    async show(req, res) {
+        const userId = req.userId;
+
+        if (!userId) {
+            return res.status(401).json({ error: 'Usuário não autenticado' });
+        }
+
+        try {
+            const user = await User.findById(userId);
+
+            if (!user) {
+                return res.status(404).json({ error: 'Usuário não encontrado' });
+            }
+
+            return res.status(200).json({address: user.address,});
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Erro ao recuperar endereços' });
+        }
+    }
     async update(req,res){
         const schema = yup.object().shape({
             addressId: yup.string().required(), 
