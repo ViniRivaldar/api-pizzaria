@@ -17,9 +17,16 @@ const ProductSchema = new mongoose.Schema({
         type: Boolean,
         default:false
     },
-    originalname:{},
-    filename:{},
-    categories:[{
+    originalname:{
+        type:String,
+    },
+    filename:{
+        type:String,
+    },
+    imageUrl: { 
+        type: String,
+    },
+    category:[{
         name:{},
         originalname:{},
         filename:{}
