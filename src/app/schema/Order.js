@@ -20,7 +20,7 @@ const AddressSchema = mongoose.Schema({
 }, { _id: false })
 
 const OrderSchema = mongoose.Schema({
-    user:[{
+    user:{
         name:{
             type: String,
             required: true
@@ -30,7 +30,7 @@ const OrderSchema = mongoose.Schema({
             required: true
         },
         address:[AddressSchema]
-    }],
+    },
     product:[{
         name:{
             type: String,
@@ -47,15 +47,19 @@ const OrderSchema = mongoose.Schema({
             type: Boolean,
             default:false
         },
-    }],
+    },{ _id: false }],
     quantity:{
         type: Number,
         default: 1
+    },
+    total:{
+        type:Number,
     },
     status:{
         type: String,
         default: 'pedido recebido'
     }
+
 },{timestamps: true})
 
 export default mongoose.model('Order', OrderSchema)
