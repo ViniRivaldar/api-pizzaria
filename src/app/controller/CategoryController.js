@@ -3,64 +3,44 @@ import * as yup from 'yup'
 
 import Category from '../schema/Category.js'
 import User from '../schema/User.js'
-import uploadImage from '../../services/Firebase.js';
-import multerConfig from '../../config/multerConfig.js';
 
-const uploads = multer(multerConfig).single('foto');
 
 class CategoryController{
     async store(req,res){
-        uploads(req, res, (err)=>{
-            if (err) {
-                return res.status(400).json({ error: err.message });
-            }
-
-            if (!req.file) {
-                return res.status(400).json({ error: "File upload failed." });
-            }
-
-            uploadImage(req, res, async () => {
-                const schema = yup.object().shape({
-                    name: yup.string().required()
-                })
-
-                try {
-                    await schema.validateSync(req.body, { abortEarly: false });
-                } catch (err) {
-                    console.log(err);
-                    return res.status(400).json({ error: err.errors });
-                }
-
-                try {
-                    const { userId } = req;
-                    const user = await User.findById(userId);
-    
-                    if (!user || !user.admin) {
-                        return res.status(403).json({ error: "Access denied. Admins only." });
-                    }
-
-                    const{name}= req.body
-                    const { filename, originalname } = req.file;
-                    const imageUrl = req.file.firebaseUrl;
-
-                    const category = await Category.create({
-                        name,
-                        image: [{
-                            originalname,
-                            filename,
-                            imageUrl
-                        }]
-                    });
-
-                    const { _id } = category;
-
-                    return res.status(201).json({ _id, name, image: category.image });
-                } catch (err) {
-                    console.log(err)
-                    return res.status(500).json({error:err.errors})
-                }
-            })
+        const schema = yup.object().shape({
+            name: yup.string().required()
         })
+
+        try {
+            await schema.validateSync(req.body, { abortEarly: false });
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({ error: err.errors });
+        }
+
+        try {
+            const { userId } = req;
+            const user = await User.findById(userId);
+
+            if (!user || !user.admin) {
+                return res.status(403).json({ error: "Access denied. Admins only." });
+            }
+
+            const{name}= req.body
+    
+
+            const category = await Category.create({
+                name,
+            
+            });
+
+            const { _id } = category;
+
+            return res.status(201).json({ _id, name });
+        } catch (err) {
+            console.log(err)
+            return res.status(500).json({error:err.errors})
+        }
     }
     async index(req,res){
         try {
