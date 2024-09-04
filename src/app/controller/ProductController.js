@@ -3,6 +3,7 @@ import multer from 'multer';
 
 import Product from "../schema/Product.js"
 import User from '../schema/User.js'
+import Category from '../schema/Category.js'
 import uploadImage from '../../services/Firebase.js';
 import multerConfig from '../../config/multerConfig.js';
 
@@ -24,7 +25,8 @@ class ProductController{
                     name: yup.string().required(),
                     description: yup.string().required(),
                     price: yup.number().required(),
-                    offer: yup.boolean()
+                    offer: yup.boolean(),
+                    category: yup.string().required()
                 });
     
                 try {
@@ -42,10 +44,11 @@ class ProductController{
                         return res.status(403).json({ error: "Access denied. Admins only." });
                     }
     
-                    const { name, description, price, offer } = req.body;
+                    const { name, description, price, offer, category } = req.body;
                     const { filename, originalname } = req.file; 
                     const { firebaseUrl } = req.file || {};
 
+                    const categoryName = await Category.findOne({name: category})
     
                     const product = await Product.create({
                         name,
@@ -54,12 +57,13 @@ class ProductController{
                         offer,
                         filename,
                         originalname,
-                        imageUrl: firebaseUrl
+                        imageUrl: firebaseUrl,
+                        category:[{name: categoryName.name}]
                     });
     
                     const { _id } = product;
     
-                    return res.status(201).json({ _id, name, description, price, offer, imageUrl: firebaseUrl });
+                    return res.status(201).json({ _id, name, description, price, offer, imageUrl: firebaseUrl, category });
     
                 } catch (err) {
                     return res.status(500).json({ error: "Error creating product." });

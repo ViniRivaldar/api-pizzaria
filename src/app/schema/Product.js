@@ -26,10 +26,12 @@ const ProductSchema = new mongoose.Schema({
     imageUrl: { 
         type: String,
     },
-   category:{
-    name:{},
-    imageUrl:{}
-   }
+   category:[{
+    name:{
+        type: String,
+        required:true
+    },
+   }]
 },{timestamps:true})
 
 export default mongoose.model('Product', ProductSchema)
