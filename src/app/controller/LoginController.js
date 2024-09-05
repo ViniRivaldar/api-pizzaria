@@ -39,13 +39,13 @@ class LoginController{
                 return res.status(401).json({ error: 'Senha ou Email incorretos' });
             }
 
-            const { _id, name, admin } = user;
+            const { _id, name, phone, admin } = user;
 
             const token = jwt.sign({ _id, name, email,admin}, process.env.TOKEN_SECRET, {
                 expiresIn: process.env.TOKEN_EXPIRATION,
             })
             
-            return res.status(200).json({token, user:{_id, email, admin}})
+            return res.status(200).json({token, user:{_id, name, phone, email, admin}})
 
         } catch (err) {
             
