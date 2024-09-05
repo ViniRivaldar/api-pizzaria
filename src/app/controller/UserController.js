@@ -74,7 +74,7 @@ class UserController{
             name: yup.string().required(),
             phone: yup.string().required().min(11),
             email:yup.string().required().email(),
-            password: yup.string().required().min(6)
+            password: yup.string().min(6)
         })
 
         try {
