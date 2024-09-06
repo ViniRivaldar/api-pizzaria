@@ -49,6 +49,7 @@ class OrderController{
             },
             products: editedProduct,
             status: 'Pedido Recebido',
+            total: req.body
         };
 
         const orderResponse = await Order.create(order);
