@@ -56,6 +56,10 @@ const OrderSchema = new mongoose.Schema({
         type:String,
         required: true,
         default: 'Pedido Recebido'
+    },
+    total:{
+        type: Number,
+        required:true
     }
 })
 
