@@ -13,7 +13,8 @@ class OrderController{
                     quantity: yup.number().required(),
                     restrition: yup.string(), 
                 })
-            )
+            ),
+            total: yup.number().required()
         });
 
         try {
